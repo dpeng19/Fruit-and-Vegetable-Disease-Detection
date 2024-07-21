@@ -6,6 +6,9 @@ import numpy as np
 import keras
 import glob
 from PIL import Image
+from keras import Sequential
+from keras.src.layers import Conv2D, BatchNormalization, MaxPooling2D, Dropout, Flatten, Dense
+from keras.src.utils import to_categorical
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
@@ -76,8 +79,7 @@ def svm_model():
     print('F1 Score:', f1_score(y_test, y_pred, average='macro'))
 
 
-# run model
-svm_model()
+
 
 def random_forest_model():
     # flatten dataset
@@ -99,6 +101,68 @@ def random_forest_model():
     # model accuracy
     print('Accuracy:', accuracy_score(y_test, y_pred))
     print('F1 Score:', f1_score(y_test, y_pred, average='macro'))
+
+def cnn_model():
+    # np arrays
+    dataset_np = np.array(dataset)
+    label_np = np.array(label)
+
+    # normalize
+    dataset_np = dataset_np / 255.0
+
+    # categorical
+    label_np = to_categorical(label_np, num_classes=10)
+
+    # split data
+    x_train, x_test, y_train, y_test = train_test_split(dataset_np, label_np, test_size=0.2, random_state=42)
+
+    # creating a sequential model
+    model = Sequential()
+
+    # convolutional layers and having ReLU activation
+    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(SIZE, SIZE, 3)))
+    model.add(BatchNormalization())
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(BatchNormalization())
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(128, (3, 3), activation='relu'))
+    model.add(BatchNormalization())
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Dropout(0.25))
+
+    # flattening 3D output to 1D output
+    model.add(Flatten())
+
+    # adding additional layers with ReLU and softmax activation
+    model.add(Dense(512, activation='relu'))
+    model.add(BatchNormalization())
+    model.add(Dropout(0.5))
+    model.add(Dense(10, activation='softmax'))
+
+    # compiling the model with Adam optimizer
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    print(model.summary)
+
+    # callbacks for checking the model
+    es = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, verbose=1)
+    mc = keras.callbacks.ModelCheckpoint('best_model.keras',
+                                         mode='max', verbose=1, save_best_only=True)
+
+    # training the model
+    model.fit(x_train, y_train, epochs=20, batch_size=32, validation_data=(x_test, y_test), callbacks=[es, mc])
+
+    # evaluating the model
+    scores = model.evaluate(x_test, y_test, verbose=0)
+    print("CNN Accuracy: %.2f%%" % (scores[1] * 100))
+    print("CNN Loss: %.2f" % scores[0])
+
+# run models
+svm_model()
 random_forest_model()
 
 
