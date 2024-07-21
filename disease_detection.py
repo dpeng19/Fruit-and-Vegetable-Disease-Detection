@@ -28,8 +28,7 @@ labelCount = 0   #0-9, for 10 classes, 1st class will have label 0
    corresponding labels (0-9) are also added into the label list'''
 def load_images(dir_path):
     temp = []
-    #print(temp)
-    path = dir_path
+    path = "Fruit and Vegetable Diseases Dataset/" + dir_path
     for file in glob.glob(path):
         image = cv2.imread(file)
         image = Image.fromarray(image, 'RGB')
@@ -164,7 +163,7 @@ def cnn_model():
 # run models
 svm_model()
 random_forest_model()
-
+cnn_model()
 
 
 
