@@ -153,7 +153,7 @@ def cnn_model():
                                          mode='max', verbose=1, save_best_only=True)
 
     # training the model
-    model.fit(x_train, y_train, epochs=20, batch_size=32, validation_data=(x_test, y_test), callbacks=[es, mc])
+    model.fit(x_train, y_train, epochs=50, batch_size=32, validation_data=(x_test, y_test), callbacks=[es, mc])
 
     # evaluating the model
     scores = model.evaluate(x_test, y_test, verbose=0)
