@@ -51,16 +51,16 @@ def load_images(dir_path):
 
 
 # load fruit images
-load_images('Apple__Healthy/*')
-load_images('Apple__Rotten/*')
-load_images('Banana__Healthy/*')
-load_images('Banana__Rotten/*')
-load_images('Mango__Healthy/*')
-load_images('Mango__Rotten/*')
-load_images('Orange__Healthy/*')
-load_images('Orange__Rotten/*')
-load_images('Strawberry__Healthy/*')
-load_images('Strawberry__Rotten/*')
+load_images('Apple__Healthy')
+load_images('Apple__Rotten')
+load_images('Banana__Healthy')
+load_images('Banana__Rotten')
+load_images('Mango__Healthy')
+load_images('Mango__Rotten')
+load_images('Orange__Healthy')
+load_images('Orange__Rotten')
+load_images('Strawberry__Healthy')
+load_images('Strawberry__Rotten')
 
 
 def svm_model():
