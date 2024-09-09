@@ -1,5 +1,3 @@
 # Fruit-and-Vegetable-Disease-Detection
 
-Our dataset we used for this project can be found here on Kaggle: 
-https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data
-
+[Link](https://docs.google.com/document/d/12OvCBgTHphtx9nyF7DjxZ8Mk12qj12K1ounXMvqdCqo/edit) for Doc 
